@@ -16,10 +16,10 @@ class SerialLink(serial.Serial):
         """
 
         assert isinstance(device_id, int)
-        assert 0 < device_id < 64
+        assert 0 <= device_id < 64
 
         # Initialize parent class, default baudrate is 9600 and device id is 0 on the serial link
-        self.serial_link = serial.Serial.__init__(serial_port, baudrate=baudrate, timeout=time_out)
+        self.serial_link = super().__init__(serial_port, baudrate=baudrate, timeout=time_out)
 
         self.device_id = device_id
 
