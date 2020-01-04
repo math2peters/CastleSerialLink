@@ -139,4 +139,4 @@ class SerialLink(serial.Serial):
             return self.convert_response(var, rsp)
 
         else:
-            raise Exception("Invalid response from serial link. The resposne was: {}".format(rsp))
+            raise Exception("Invalid response from serial link. The response was: {}".format(rsp))
