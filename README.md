@@ -13,7 +13,7 @@ This is a small spinoff of code I implemented intended to help people communicat
    * wires to connect everything together
    * soldering iron + solder to solder connections between serial link and FTDI
   
-2. Wire these components together. Most of these connections are reasonably obvious. The difficult ones are connecting the FTDI and serial link. For my setup, I connected the 5V output of the serial link to my FTDI to power it. Make sure you also connect their grounds together and cross the Rx of the FTDI with the Tx of the serial link and visa versa.
+2. Wire these components together. Most of these connections are reasonably obvious. The difficult ones are connecting the FTDI and serial link. For my setup, I connected the 5V output of the serial link to my FTDI to power it, but the feasibility of this varies based on which FTDI you purchase. Make sure you connect their ground pins together and cross the Rx of the FTDI with the Tx of the serial link and visa versa.
 
 3. Program both the ESC and the serial link with the castle link USB programming device. Most important is setting the ESC to accept live link communication. You can also modify the baud rate and device id of the castle serial link this way. The SerialLink class should be configured for the defaults.
 
