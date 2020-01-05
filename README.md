@@ -4,14 +4,14 @@ Pythonic implementation for communication with the castle serial link (http://ww
 This is a small spinoff of code I implemented intended to help people communicate with ESCs via the castle serial link device. Below outlines the hardware steps to get this code to work:
 
 1. Purchase:
-  * a castle serial link device
-  * a castle ESC
-  * a castle link USB programming device (their naming conventions are confusing)
-  * a generic FTDI to convert from USB to serial
-  * a power supply for the ESC
-  * a power supply for the serial link. Hopefully your ESC has a Battery Eliminator Circuit, in which case you don't need to worry, it's powered automatically. If not, a 6V lantern battery or something similar should work just fine
-  * wires to connect everything together
-  * soldering iron + solder to solder connections between serial link and FTDI
+   * a castle serial link device
+   * a castle ESC
+   * a castle link USB programming device (their naming conventions are confusing)
+   * a generic FTDI to convert from USB to serial
+   * a power supply for the ESC
+   * a power supply for the serial link. Hopefully your ESC has a Battery Eliminator Circuit, in which case you don't need to worry, it's powered automatically. If not, a 6V lantern battery or something similar should work just fine
+   * wires to connect everything together
+   * soldering iron + solder to solder connections between serial link and FTDI
   
 2. Wire these components together. Most of these connections are reasonably obvious. The difficult ones are connecting the FTDI and serial link. For my setup, I connected the 5V output of the serial link to my FTDI to power it. Make sure you also connect their grounds together and cross the Rx of the FTDI with the Tx of the serial link and visa versa.
 
