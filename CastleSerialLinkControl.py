@@ -1,5 +1,4 @@
 import numpy as np
-import time
 
 class SerialLink():
     """
@@ -50,7 +49,7 @@ class SerialLink():
         intlist = [int(a) for a in rsp]
 
         # Calculate the checksum
-       if np.sum(intlist) % 256 == 0:
+        if np.sum(intlist) % 256 == 0:
             return True
         else:
             return False
