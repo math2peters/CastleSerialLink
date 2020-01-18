@@ -23,6 +23,7 @@ This is a small spinoff of code I implemented intended to help people communicat
 
 ```Python
 import serial
+import time
 import CastleSerialLinkControl
 
 ser = serial.Serial('COM6', baudrate=9600, timeout=1)
