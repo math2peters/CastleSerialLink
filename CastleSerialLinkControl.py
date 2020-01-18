@@ -1,13 +1,13 @@
 import numpy as np
-import serial
+import time
 
-class SerialLink(serial.Serial):
+class SerialLink():
     """
     Class to communicate with castle serial link, inherits from pyserial
     """
 
 
-    def __init__(self, serial_port, device_id=0, baudrate=9600, time_out=10):
+    def __init__(self, serial, device_id=0):
         """
         :param serial_port: serial port. Usually COM# for windows computers, e.g. "COM6"
         :param device_id: number between 0-63 associate with serial link address
@@ -19,7 +19,7 @@ class SerialLink(serial.Serial):
         assert 0 <= device_id < 64
 
         # Initialize parent class, default baudrate is 9600 and device id is 0 on the serial link
-        self.serial_link = super().__init__(serial_port, baudrate=baudrate, timeout=time_out)
+        self.serial_link = serial
 
         self.device_id = device_id
 
@@ -50,7 +50,7 @@ class SerialLink(serial.Serial):
         intlist = [int(a) for a in rsp]
 
         # Calculate the checksum
-        if np.sum(intlist) % 256 == 0:
+       if np.sum(intlist) % 256 == 0:
             return True
         else:
             return False
@@ -67,7 +67,6 @@ class SerialLink(serial.Serial):
 
     def convert_response(self, var, rsp):
         """
-
         :param var: The variable we requested, e.g. "voltage"
         :param rsp: the 3-byte response of the serial link. The last byte is a checksum
         :return: The converted response
@@ -81,9 +80,9 @@ class SerialLink(serial.Serial):
 
         # if scale = -1, there is no scale associated with it in the manual
         if scale == -1:
-            return values[0] * 256 + values[[1]]
+            return values[0] * 256 + values[1]
         else:
-            return values[0] * 256 + values[[1]] * scale / 2042.0
+            return (values[0] * 256 + values[1]) * scale / 2042.0
 
 
     def write_var(self, var, s):
@@ -100,10 +99,10 @@ class SerialLink(serial.Serial):
         # the list of bytes (as integers) to write to the serial link
         # byte 1 is the device address, always starts with 1xxxxxxx hence the 128
         # byte 2 is the register address
-        # bytes 3-4 are the values to be written to the register
+       # bytes 3-4 are the values to be written to the register
         # byte 5 is a checksum
         write_array = [128 + self.device_id,
-                     self.write_dictionary[var],
+                     self.register_dictionary[var],
                      int(s // 256), s % 256]
 
         write_array = self.append_checksum(write_array)
@@ -116,7 +115,7 @@ class SerialLink(serial.Serial):
 
     def read_var(self, var):
         """
-        Reads a value from the serial link register
+       Reads a value from the serial link register
         :param var: the register to read from, e.g. "speed"
         :return: the 3-byte response of the serial link
         """
@@ -126,7 +125,7 @@ class SerialLink(serial.Serial):
         # bytes 3-4 are ignored by the serial link since we are reading
         # byte 5 is a checksum
         read_array = [128 + self.device_id,
-                      self.read_dictionary[var],
+                      self.register_dictionary[var],
                       0, 0]
         read_array = self.append_checksum(read_array)
 
@@ -135,7 +134,7 @@ class SerialLink(serial.Serial):
         rsp = self.serial_link.read(3)
 
         # check that the response is indeed 3 bytes and that the checksum is correct
-        if len(rsp) == 3 and self.checksum(rsp):
+        if len(rsp) == 3 and self.calc_checksum(rsp):
             return self.convert_response(var, rsp)
 
         else:
