@@ -2,22 +2,21 @@ import numpy as np
 
 class SerialLink():
     """
-    Class to communicate with castle serial link, inherits from pyserial
+    Class to communicate with castle serial link, takes Pyserial Serial class in constructor
     """
 
 
     def __init__(self, serial, device_id=0):
         """
-        :param serial_port: serial port. Usually COM# for windows computers, e.g. "COM6"
+        :param serial: Pyserial Serial class
         :param device_id: number between 0-63 associate with serial link address
-        :param baudrate: bits per second sent to the serial link
-        :param time_out: time out the serial link after 10 seconds
+
         """
 
         assert isinstance(device_id, int)
         assert 0 <= device_id < 64
 
-        # Initialize parent class, default baudrate is 9600 and device id is 0 on the serial link
+        # assign class, default baudrate is 9600 and device id is 0 on the serial link
         self.serial_link = serial
 
         self.device_id = device_id
