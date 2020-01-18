@@ -19,4 +19,29 @@ This is a small spinoff of code I implemented intended to help people communicat
 
 4. Finally, you can plug a USB into the FDTI and your computer should detect the devices once they are powered. For windows computers, the USB port name should be COM followed by a number, e.g. COM6. This is the value used as input in the SerialLink class constructor.
 
-Programming examples to come soon.
+# Example
+
+```Python
+import serial
+import CastleSerialLinkControl
+
+ser = serial.Serial('COM6', baudrate=9600, timeout=1)
+new_conn = CastleSerialLinkControl.SerialLink(ser)
+print(new_conn.write_var("write throttle", 10000))
+time.sleep(2)
+print(new_conn.read_var("speed"))
+time.sleep(1)
+print(new_conn.read_var("voltage"))
+print(new_conn.write_var("write throttle", 0))
+```
+
+outputs
+```Python
+b"'\x10\xc9"
+
+14777.58250734574
+
+12.223310479921645
+
+b'\x00\x00\x00'
+```
